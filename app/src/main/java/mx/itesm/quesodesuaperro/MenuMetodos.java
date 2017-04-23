@@ -1,6 +1,5 @@
 package mx.itesm.quesodesuaperro;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 public class MenuMetodos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -85,7 +83,8 @@ public class MenuMetodos extends AppCompatActivity
             fragment  = new Biseccion();
             getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
         } else if (id == R.id.cramer) {
-
+            fragment  = new InterpolacionNewton();
+            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
         } else if (id == R.id.internewton) {
 
         }
