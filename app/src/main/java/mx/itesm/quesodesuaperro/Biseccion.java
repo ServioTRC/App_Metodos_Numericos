@@ -1,137 +1,206 @@
 package mx.itesm.quesodesuaperro;
 
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
-public class Biseccion {
 
-	/*public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(biseccionCompleta("x^2-3", -10, 10, 0.1));
-	}*/
-	
-	public static double eval(final String str) {
-	    return new Object() {
-	        int pos = -1, ch;
+public class Biseccion extends Fragment implements View.OnClickListener{
 
-	        void nextChar() {
-	            ch = (++pos < str.length()) ? str.charAt(pos) : -1;
-	        }
+    //TODO Problemas con los exponentes en la evaluación
 
-	        boolean eat(int charToEat) {
-	            while (ch == ' ') nextChar();
-	            if (ch == charToEat) {
-	                nextChar();
-	                return true;
-	            }
-	            return false;
-	        }
+    private Button upButton;
+    private EditText funcion;
+    private EditText puntoInicial;
+    private EditText puntoFinal;
+    private EditText error;
+    private TextView resultados;
+    private Toast toast;
 
-	        double parse() {
-	            nextChar();
-	            double x = parseExpression();
-	            if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
-	            return x;
-	        }
+    public Biseccion() {
+        // Required empty public constructor
+    }
 
-	        // Grammar:
-	        // expression = term | expression `+` term | expression `-` term
-	        // term = factor | term `*` factor | term `/` factor
-	        // factor = `+` factor | `-` factor | `(` expression `)`
-	        //        | number | functionName factor | factor `^` factor
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_biseccion, container, false);
+        upButton = (Button) view.findViewById(R.id.Aceptar);
+        funcion = (EditText) view.findViewById(R.id.Funcion);
+        puntoInicial = (EditText) view.findViewById(R.id.PuntoInicial);
+        puntoFinal = (EditText) view.findViewById(R.id.PuntoFinal);
+        error = (EditText) view.findViewById(R.id.Error);
+        resultados = (TextView) view.findViewById(R.id.Resultados);
+        upButton.setOnClickListener(this);
+        return view;
+    }
 
-	        double parseExpression() {
-	            double x = parseTerm();
-	            for (;;) {
-	                if      (eat('+')) x += parseTerm(); // addition
-	                else if (eat('-')) x -= parseTerm(); // subtraction
-	                else return x;
-	            }
-	        }
+    private double eval(final String str) {
+        return new Object() {
+            int pos = -1, ch;
 
-	        double parseTerm() {
-	            double x = parseFactor();
-	            for (;;) {
-	                if      (eat('*')) x *= parseFactor(); // multiplication
-	                else if (eat('/')) x /= parseFactor(); // division
-	                else return x;
-	            }
-	        }
+            void nextChar() {
+                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+            }
 
-	        double parseFactor() {
-	            if (eat('+')) return parseFactor(); // unary plus
-	            if (eat('-')) return -parseFactor(); // unary minus
+            boolean eat(int charToEat) {
+                while (ch == ' ') nextChar();
+                if (ch == charToEat) {
+                    nextChar();
+                    return true;
+                }
+                return false;
+            }
 
-	            double x;
-	            int startPos = this.pos;
-	            if (eat('(')) { // parentheses
-	                x = parseExpression();
-	                eat(')');
-	            } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
-	                while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
-	                x = Double.parseDouble(str.substring(startPos, this.pos));
-	            } else if (ch >= 'a' && ch <= 'z') { // functions
-	                while (ch >= 'a' && ch <= 'z') nextChar();
-	                String func = str.substring(startPos, this.pos);
-	                x = parseFactor();
-	                if (func.equals("sqrt")) x = Math.sqrt(x);
-	                else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
-	                else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
-	                else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
-	                else throw new RuntimeException("Unknown function: " + func);
-	            } else {
-	                throw new RuntimeException("Unexpected: " + (char)ch);
-	            }
+            double parse() {
+                nextChar();
+                double x = parseExpression();
+                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                return x;
+            }
 
-	            if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
+            // Grammar:
+            // expression = term | expression `+` term | expression `-` term
+            // term = factor | term `*` factor | term `/` factor
+            // factor = `+` factor | `-` factor | `(` expression `)`
+            //        | number | functionName factor | factor `^` factor
 
-	            return x;
-	        }
-	    }.parse();
-	}
-	
-	public static double biseccion(String funcion, double puntoInicial, double puntoFinal, double error){
-		String sustitucionMitad, sustitucionInicial; 
-		double mitad = (puntoInicial + puntoFinal)/2;
-		while((Math.abs((mitad-puntoInicial)/mitad)*100)>error){
-			
-			sustitucionMitad = funcion.replaceAll("x", "("+Double.toString(mitad)+")");
-			
-			if(eval(sustitucionMitad) == 0.0)
-				break;
-			
-			sustitucionInicial = funcion.replaceAll("x", "("+Double.toString(puntoInicial)+")");
-			if((eval(sustitucionMitad)*eval(sustitucionInicial))<0){
-				puntoFinal = mitad;
-			} else {
-				puntoInicial = mitad;
-			}
-			
-			mitad = (puntoInicial + puntoFinal)/2;
-		}
-		return mitad;
-	}
-	
-	public static ArrayList<Double> intervalos(String funcion, double puntoInicial, double puntoFinal, double paso){
-		ArrayList<Double> intervalos = new ArrayList<Double>();
-		String sustitucionInicial, sustitucionFinal;
-		for(double i = puntoInicial; i < puntoFinal; i+=paso){
-			sustitucionInicial = funcion.replaceAll("x", "("+Double.toString(i)+")");
-			sustitucionFinal = funcion.replaceAll("x", "("+Double.toString(i+paso)+")");
-			if((eval(sustitucionInicial)*eval(sustitucionFinal)) < 0 || eval(sustitucionInicial) == 0.0){
-				intervalos.add(i);
-				intervalos.add(i+paso);
-			}
-		}
-		return intervalos;
-	}
-	
-	public static ArrayList<Double> biseccionCompleta(String funcion, double puntoInicial, double puntoFinal, double error){
-		ArrayList<Double> raices = new ArrayList<Double>();
-		ArrayList<Double> intervalos = intervalos(funcion, puntoInicial, puntoFinal, 0.3);
-		for(int i = 0; i < intervalos.size(); i+=2){
-			raices.add(biseccion(funcion, intervalos.get(i), intervalos.get(i+1), error));
-		}
-		return raices;
-	}
-	
+            double parseExpression() {
+                double x = parseTerm();
+                for (;;) {
+                    if      (eat('+')) x += parseTerm(); // addition
+                    else if (eat('-')) x -= parseTerm(); // subtraction
+                    else return x;
+                }
+            }
+
+            double parseTerm() {
+                double x = parseFactor();
+                for (;;) {
+                    if      (eat('*')) x *= parseFactor(); // multiplication
+                    else if (eat('/')) x /= parseFactor(); // division
+                    else return x;
+                }
+            }
+
+            double parseFactor() {
+                if (eat('+')) return parseFactor(); // unary plus
+                if (eat('-')) return -parseFactor(); // unary minus
+
+                double x;
+                int startPos = this.pos;
+                if (eat('(')) { // parentheses
+                    x = parseExpression();
+                    eat(')');
+                } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
+                    while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
+                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                } else if (ch >= 'a' && ch <= 'z') { // functions
+                    while (ch >= 'a' && ch <= 'z') nextChar();
+                    String func = str.substring(startPos, this.pos);
+                    x = parseFactor();
+                    if (func.equals("sqrt")) x = Math.sqrt(x);
+                    else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
+                    else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
+                    else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
+                    else throw new RuntimeException("Unknown function: " + func);
+                } else {
+                    throw new RuntimeException("Unexpected: " + (char)ch);
+                }
+
+                if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
+
+                return x;
+            }
+        }.parse();
+    }
+
+    private double biseccion(String funcion, double puntoInicial, double puntoFinal, double error){
+        String sustitucionMitad, sustitucionInicial;
+        double mitad = (puntoInicial + puntoFinal)/2;
+        while((Math.abs((mitad-puntoInicial)/mitad)*100)>error){
+
+            sustitucionMitad = funcion.replaceAll("x", "("+Double.toString(mitad)+")");
+
+            if(eval(sustitucionMitad) == 0.0)
+                break;
+
+            sustitucionInicial = funcion.replaceAll("x", "("+Double.toString(puntoInicial)+")");
+            if((eval(sustitucionMitad)*eval(sustitucionInicial))<0){
+                puntoFinal = mitad;
+            } else {
+                puntoInicial = mitad;
+            }
+
+            mitad = (puntoInicial + puntoFinal)/2;
+        }
+        return mitad;
+    }
+
+    private ArrayList<Double> intervalos(String funcion, double puntoInicial, double puntoFinal, double paso){
+        ArrayList<Double> intervalos = new ArrayList<Double>();
+        String sustitucionInicial, sustitucionFinal;
+        for(double i = puntoInicial; i < puntoFinal; i+=paso){
+            sustitucionInicial = funcion.replaceAll("x", "("+Double.toString(i)+")");
+            sustitucionFinal = funcion.replaceAll("x", "("+Double.toString(i+paso)+")");
+            if((eval(sustitucionInicial)*eval(sustitucionFinal)) < 0 || eval(sustitucionInicial) == 0.0){
+                intervalos.add(i);
+                intervalos.add(i+paso);
+            }
+        }
+        return intervalos;
+    }
+
+    private String biseccionCompleta(String funcion, double puntoInicial, double puntoFinal, double error){
+        funcion = funcion.replace("pi", "(3.1416)");
+        funcion = funcion.replace("e", "(2.71828)");
+        String raices = "";
+        ArrayList<Double> intervalos = intervalos(funcion, puntoInicial, puntoFinal, 0.3);
+        for(int i = 0, count = 1; i < intervalos.size(); i+=2, count++){
+            raices += "Raíz "+count+": "+Double.toString(biseccion(funcion, intervalos.get(i), intervalos.get(i+1), error))
+            +"\n";
+        }
+        return raices;
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.Aceptar:
+                if(validar(funcion.getText().toString())) {
+                    String res = biseccionCompleta(funcion.getText().toString(), Double.parseDouble(puntoInicial.getText().toString()),
+                            Double.parseDouble(puntoFinal.getText().toString()), Double.parseDouble(error.getText().toString()));
+                    resultados.setText(res);
+                }
+                break;
+        }
+    }
+
+    private boolean validar(String funcion){
+        try{
+            funcion = funcion.replace("x", "(-2)");
+            funcion = funcion.replace("pi", "(3.1416)");
+            funcion = funcion.replace("e", "(2.71828)");
+            eval(funcion);
+            return true;
+        } catch(Exception e){
+            toast = Toast.makeText(getActivity(), "Verificar escritura de la función", Toast.LENGTH_LONG);
+            toast.show();
+            return false;
+        }
+    }
+
 }

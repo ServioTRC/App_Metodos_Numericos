@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Contenedor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="mx.itesm.quesodesuaperro.Menu"
+    tools:context="mx.itesm.quesodesuaperro.MenuMetodos"
     tools:showIn="@layout/app_bar_menu">
 
+    <ImageView
+        android:id="@+id/ImagenCentral"
+        android:layout_width="261dp"
+        android:layout_height="284dp"
+        app:srcCompat="@mipmap/mrbean"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>
