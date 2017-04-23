@@ -82,11 +82,12 @@ public class MenuMetodos extends AppCompatActivity
         if (id == R.id.biseccion) {
             fragment  = new Biseccion();
             getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
-        } else if (id == R.id.cramer) {
+        } else if (id == R.id.internewton) {
             fragment  = new InterpolacionNewton();
             getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
-        } else if (id == R.id.internewton) {
-
+        } else if (id == R.id.cramer) {
+            fragment  = new Cramer();
+            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

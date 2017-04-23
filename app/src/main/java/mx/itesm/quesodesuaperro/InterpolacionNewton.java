@@ -86,9 +86,11 @@ public class InterpolacionNewton extends Fragment implements View.OnClickListene
     }
 
     private void eliminarValores(){
-        coordenadas.remove(coordenadas.size()-1);
-        toast = Toast.makeText(getActivity(), "Valor eliminado" , Toast.LENGTH_LONG);
-        toast.show();
+        if(coordenadas.size() > 0) {
+            coordenadas.remove(coordenadas.size() - 1);
+            toast = Toast.makeText(getActivity(), "Valor eliminado", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     private ArrayList<ArrayList<Double>> matrizConPuntos(ArrayList<ArrayList<Double>> puntos){
