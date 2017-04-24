@@ -78,17 +78,22 @@ public class MenuMetodos extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragment;
+        Fragment fragment = new Fragment();
         if (id == R.id.biseccion) {
             fragment  = new Biseccion();
-            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
         } else if (id == R.id.internewton) {
             fragment  = new InterpolacionNewton();
-            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
         } else if (id == R.id.cramer) {
             fragment  = new Cramer();
-            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
+        } else if (id == R.id.bairstow){
+            fragment = new Bairstow();
+        } else if (id == R.id.gauss){
+            fragment = new Gauss();
+        } else if (id == R.id.lagrange){
+            fragment = new Lagrange();
         }
+        getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -11,6 +11,15 @@
         <item
             android:id="@+id/internewton"
             android:title="Interpolación de Newton" />
+        <item
+            android:id="@+id/bairstow"
+            android:title="Método de Bairstow" />
+        <item
+            android:id="@+id/gauss"
+            android:title="Método de Gauss" />
+        <item
+            android:id="@+id/lagrange"
+            android:title="Método de Lagrange" />
     </group>
 
 </menu>
