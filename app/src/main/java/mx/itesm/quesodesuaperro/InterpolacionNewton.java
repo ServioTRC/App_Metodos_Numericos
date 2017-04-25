@@ -62,10 +62,13 @@ public class InterpolacionNewton extends Fragment implements View.OnClickListene
                 break;
             case R.id.Calcular:
                 String res = interpolacionNewton(coordenadas);
+                toast = Toast.makeText(getActivity(), "Polinomio Generado" , Toast.LENGTH_LONG);
+                toast.show();
                 resultado.setText(res);
                 break;
         }
     }
+
 
     private void agregarValores(Double puntoX, Double puntoY){
         ArrayList<Double> puntosXY = new ArrayList<Double>(2);

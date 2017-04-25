@@ -11,7 +11,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Método de Cramer"
+        android:text="Método de Interpolación Newton"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -40,7 +40,7 @@
         android:layout_toRightOf="@+id/PuntoX"
         android:ems="10"
         android:hint="Punto en Y"
-        android:inputType="numberDecimal" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <Button
         android:id="@+id/Agregar"

@@ -131,20 +131,23 @@ public class Biseccion extends Fragment implements View.OnClickListener{
         String sustitucionMitad, sustitucionInicial;
         double mitad = (puntoInicial + puntoFinal)/2;
         while((Math.abs((mitad-puntoInicial)/mitad)*100)>error){
+            try {
+                sustitucionMitad = funcion.replaceAll("x", "(" + Double.toString(mitad) + ")");
 
-            sustitucionMitad = funcion.replaceAll("x", "("+Double.toString(mitad)+")");
+                if (eval(sustitucionMitad) == 0.0)
+                    break;
 
-            if(eval(sustitucionMitad) == 0.0)
-                break;
+                sustitucionInicial = funcion.replaceAll("x", "(" + Double.toString(puntoInicial) + ")");
+                if ((eval(sustitucionMitad) * eval(sustitucionInicial)) < 0) {
+                    puntoFinal = mitad;
+                } else {
+                    puntoInicial = mitad;
+                }
 
-            sustitucionInicial = funcion.replaceAll("x", "("+Double.toString(puntoInicial)+")");
-            if((eval(sustitucionMitad)*eval(sustitucionInicial))<0){
-                puntoFinal = mitad;
-            } else {
-                puntoInicial = mitad;
+                mitad = (puntoInicial + puntoFinal) / 2;
+            }catch (Exception e){
+                return mitad;
             }
-
-            mitad = (puntoInicial + puntoFinal)/2;
         }
         return mitad;
     }
@@ -175,7 +178,6 @@ public class Biseccion extends Fragment implements View.OnClickListener{
         return raices;
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -183,6 +185,8 @@ public class Biseccion extends Fragment implements View.OnClickListener{
                 if(validar(funcion.getText().toString())) {
                     String res = biseccionCompleta(funcion.getText().toString(), Double.parseDouble(puntoInicial.getText().toString()),
                             Double.parseDouble(puntoFinal.getText().toString()), Double.parseDouble(error.getText().toString()));
+                    toast = Toast.makeText(getActivity(), "Raíces obtenidas", Toast.LENGTH_LONG);
+                    toast.show();
                     resultados.setText(res);
                 }
                 break;

@@ -28,6 +28,7 @@ public class Cramer extends Fragment implements View.OnClickListener{
     private Toast toast;
     private ArrayList<ArrayList<Double>> ecuaciones;
     private Integer numIncog = 0;
+    private Integer numCoef = 0;
 
     public Cramer() {
         // Required empty public constructor
@@ -68,7 +69,17 @@ public class Cramer extends Fragment implements View.OnClickListener{
                 imprimirValores();
                 break;
             case R.id.Calcular:
-                resultados.setText(metodoDeCrammer(ecuaciones));
+                if(numIncog == 0) {
+                    toast = Toast.makeText(getActivity(), "Resultados calculados", Toast.LENGTH_LONG);
+                    toast.show();
+                    resultados.setText(metodoDeCrammer(ecuaciones));
+                }else if(numIncog < 0){
+                    toast = Toast.makeText(getActivity(), "Sobran líneas de coeficientes" , Toast.LENGTH_LONG);
+                    toast.show();
+                } else{
+                    toast = Toast.makeText(getActivity(), "Faltan líneas de coeficientes" , Toast.LENGTH_LONG);
+                    toast.show();
+                }
                 break;
         }
     }
@@ -79,14 +90,22 @@ public class Cramer extends Fragment implements View.OnClickListener{
         for(int i = 0; i < valoresSimples.length; i++){
             coef.add(Double.parseDouble(valoresSimples[i]));
         }
-        if(numIncog == 0)
-            numIncog = coef.size()-2;
-        else
-            numIncog--;
-        faltantes.setText("Ecuaciones faltantes: "+numIncog);
         toast = Toast.makeText(getActivity(), "Valores agregados" , Toast.LENGTH_LONG);
         toast.show();
-        ecuaciones.add(coef);
+        if(ecuaciones.size() == 1){
+            numIncog = ecuaciones.get(0).size()-2;
+            numCoef = ecuaciones.get(0).size();
+        }
+        else if (ecuaciones.size() == 0)
+            numIncog = 0;
+        if(coef.size() != numCoef){
+            toast = Toast.makeText(getActivity(), "Número de coeficientes erróneo" , Toast.LENGTH_LONG);
+            toast.show();
+        } else{
+            ecuaciones.add(coef);
+            numIncog--;
+        }
+        faltantes.setText("Ecuaciones faltantes: "+numIncog);
     }
 
     private void imprimirValores(){
@@ -102,11 +121,11 @@ public class Cramer extends Fragment implements View.OnClickListener{
 
     private void eliminarValores(){
         if(ecuaciones.size() > 0) {
+            numIncog++;
             ecuaciones.remove(ecuaciones.size() - 1);
             toast = Toast.makeText(getActivity(), "Valores eliminados", Toast.LENGTH_LONG);
             toast.show();
-        } else{
-            numIncog = 0;
+            faltantes.setText("Ecuaciones faltantes: "+numIncog);
         }
     }
 
@@ -173,8 +192,10 @@ public class Cramer extends Fragment implements View.OnClickListener{
         ArrayList<ArrayList<Double>> matrizSencilla = matrizSencilla(matrizCompleta);
         System.out.println("Otro");
         Double determinante = determinante(matrizSencilla);
-        if(determinante == 0.0)
-            System.out.println("No se puede resolver");
+        if(determinante == 0.0) {
+            toast = Toast.makeText(getActivity(), "No se puede resolver", Toast.LENGTH_LONG);
+            toast.show();
+        }
         else{
             for(int i = 0; i < matrizCompleta.size(); i++){
                 matrizSencilla = new ArrayList<ArrayList<Double>>();
