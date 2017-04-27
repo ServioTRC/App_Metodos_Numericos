@@ -10,10 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MenuMetodos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
+
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class MenuMetodos extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -92,9 +96,9 @@ public class MenuMetodos extends AppCompatActivity
         } else if (id == R.id.lagrange){
             fragment = new Lagrange();
         }
+        findViewById(R.id.ImagenCentral).setVisibility(View.INVISIBLE);
+        findViewById(R.id.ImagenCentral).setVisibility(View.INVISIBLE);
         getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
