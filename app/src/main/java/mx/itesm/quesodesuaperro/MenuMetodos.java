@@ -16,7 +16,6 @@ public class MenuMetodos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
 
-    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +45,14 @@ public class MenuMetodos extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        findViewById(R.id.ImagenCentral).setVisibility(View.VISIBLE);
+        getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, new Fragment()).commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        this.menu = menu;
+        //getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -83,7 +77,10 @@ public class MenuMetodos extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = new Fragment();
-        if (id == R.id.biseccion) {
+        boolean esMenu = false;
+        if (id == R.id.menus){
+            esMenu = true;
+        } else if (id == R.id.biseccion) {
             fragment  = new Biseccion();
         } else if (id == R.id.internewton) {
             fragment  = new InterpolacionNewton();
@@ -95,12 +92,21 @@ public class MenuMetodos extends AppCompatActivity
             fragment = new Gauss();
         } else if (id == R.id.lagrange){
             fragment = new Lagrange();
+        } else if (id == R.id.ayuda){
+            fragment = new Ayuda();
+        } else if (id == R.id.creditos){
+            fragment = new Creditos();
         }
-        findViewById(R.id.ImagenCentral).setVisibility(View.INVISIBLE);
-        findViewById(R.id.ImagenCentral).setVisibility(View.INVISIBLE);
-        getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
+        if(!esMenu){
+            findViewById(R.id.ImagenCentral).setVisibility(View.INVISIBLE);
+            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, fragment).commit();
+        } else{
+            findViewById(R.id.ImagenCentral).setVisibility(View.VISIBLE);
+            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, new Fragment()).commit();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

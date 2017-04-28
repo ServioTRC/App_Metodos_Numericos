@@ -3,6 +3,9 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/menus"
+            android:title="Menu" />
+        <item
             android:id="@+id/biseccion"
             android:title="Bisección" />
         <item
@@ -20,6 +23,12 @@
         <item
             android:id="@+id/lagrange"
             android:title="Método de Lagrange" />
+        <item
+            android:id="@+id/ayuda"
+            android:title="Ayuda" />
+        <item
+            android:id="@+id/creditos"
+            android:title="Créditos" />
     </group>
 
 </menu>

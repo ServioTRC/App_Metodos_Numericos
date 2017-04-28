@@ -3,8 +3,13 @@ package mx.itesm.quesodesuaperro;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.provider.DocumentFile;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,13 +97,12 @@ public class Cramer extends Fragment implements View.OnClickListener{
         }
         toast = Toast.makeText(getActivity(), "Valores agregados" , Toast.LENGTH_LONG);
         toast.show();
-        if(ecuaciones.size() == 1){
+        if (ecuaciones.size() == 0){
+            numCoef = coef.size();
+            ecuaciones.add(coef);
             numIncog = ecuaciones.get(0).size()-2;
-            numCoef = ecuaciones.get(0).size();
         }
-        else if (ecuaciones.size() == 0)
-            numIncog = 0;
-        if(coef.size() != numCoef){
+        else if(coef.size() != numCoef){
             toast = Toast.makeText(getActivity(), "Número de coeficientes erróneo" , Toast.LENGTH_LONG);
             toast.show();
         } else{
@@ -219,9 +223,11 @@ public class Cramer extends Fragment implements View.OnClickListener{
     private String imprimirCrammer(ArrayList<Double> valores){
         String res = "";
         for(Double val: valores){
-            res += val + "\n";
+            res += "X"+valores.indexOf(val)+"= "+val + "\n";
         }
         return res;
     }
+
+
 
 }
