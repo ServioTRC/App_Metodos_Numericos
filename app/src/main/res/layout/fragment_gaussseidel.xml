@@ -34,7 +34,18 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:layout_below="@+id/textView12"
-        android:hint="Valores" />
+        android:hint="Valores"
+        android:layout_toLeftOf="@+id/Calcular"
+        android:layout_toStartOf="@+id/Calcular" />
+
+    <EditText
+        android:id="@+id/Error2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Error"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/Agregar" />
 
     <EditText
         android:id="@+id/PuntosIniciales"
@@ -42,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/Agregar"
+        android:layout_below="@+id/Error2"
         android:ems="10"
         android:hint="Ingrese puntos iniciales"
         android:inputType="textPersonName" />

@@ -22,8 +22,8 @@ import java.util.Arrays;
 
 public class GaussSeidel extends Fragment implements View.OnClickListener {
 
-    private ArrayList<Float> arregloNumeros;
-    private ArrayList<Float> arregloMatriz;
+    private ArrayList<Float> arregloNumeros = new ArrayList<Float>();
+    private ArrayList<Float> arregloMatriz = new ArrayList<Float>();
     private Button agregar;
     private Button borrar;
     private Button calcular;
@@ -32,22 +32,26 @@ public class GaussSeidel extends Fragment implements View.OnClickListener {
     private TextView coeficientes;
     private TextView faltantes;
     private TextView resultados;
+    private EditText error;
     private Toast toast;
     private ArrayList<ArrayList<Float>> ecuaciones;
     private Integer numIncog = 0;
     private Integer numCoef = 0;
+    private Float errorValor;
+    private String resultadosSeide = "Matriz sin diagonal dominante";;
 
     public GaussSeidel() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                         Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cramer, container, false);
+        View view = inflater.inflate(R.layout.fragment_gaussseidel, container, false);
         ecuaciones = new ArrayList<ArrayList<Float>>();
         agregar = (Button) view.findViewById(R.id.Agregar);
         borrar = (Button) view.findViewById(R.id.Borrar);
         calcular = (Button) view.findViewById(R.id.Calcular);
         valores = (EditText) view.findViewById(R.id.Valores);
+        error = (EditText) view.findViewById(R.id.Error2);
         puntosIniciales = (EditText) view.findViewById(R.id.PuntosIniciales);
         faltantes = (TextView) view.findViewById(R.id.Faltantes);
         coeficientes = (TextView) view.findViewById(R.id.Puntos);
@@ -78,13 +82,25 @@ public class GaussSeidel extends Fragment implements View.OnClickListener {
                 if(numIncog == 0) {
                     toast = Toast.makeText(getActivity(), "Resultados calculados", Toast.LENGTH_LONG);
                     toast.show();
-                    lecturaNumeros(puntosIniciales.getText().toString());
-                    if(arregloNumeros.size() == (ecuaciones.get(0).size()-1))
-                        toast = Toast.makeText(getActivity(), "Resultados bien calculados", Toast.LENGTH_LONG);
-                    else
-                        toast = Toast.makeText(getActivity(), "Número de puntos erróneos", Toast.LENGTH_LONG);
-                        //resultados.setText(realizarGaussSeidel(ecuaciones));
-                    toast.show();
+                    if(lecturaNumeros(puntosIniciales.getText().toString())){
+                        toast = Toast.makeText(getActivity(), error.getText().toString()+"Hola", Toast.LENGTH_LONG);
+                        toast.show();
+                        try{
+                            errorValor = Float.parseFloat(error.getText().toString());
+                            if(arregloNumeros.size() == (ecuaciones.get(0).size()-1)){
+                                realizarGaussSeidel(errorValor);
+                                resultados.setText(imprimirSeidel(resultadosSeide));
+                            }
+                            else
+                                toast = Toast.makeText(getActivity(), "Número de puntos erróneos", Toast.LENGTH_LONG);
+                        }catch (Exception e){
+                            toast = Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    } else {
+                        toast = Toast.makeText(getActivity(), "Error con los puntos ingresados", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
                 }else if(numIncog < 0){
                     toast = Toast.makeText(getActivity(), "Sobran líneas de coeficientes" , Toast.LENGTH_LONG);
                     toast.show();
@@ -140,16 +156,37 @@ public class GaussSeidel extends Fragment implements View.OnClickListener {
         faltantes.setText("Ecuaciones faltantes: "+numIncog);
     }
 
-    public void lecturaNumeros(String puntos){
+    public boolean lecturaNumeros(String puntos){
         //Tiene que ser uno menos a la longitud de uno de las líneas
         String[] numerostext = puntos.split(",");
-        for(int i = 0; i < numerostext.length; i++) {
-            arregloNumeros.add(Float.parseFloat(numerostext[i]));
+        int nums = numCoef - 1;
+        if(numerostext.length == (nums)){
+            for(int i = 0; i < numerostext.length; i++) {
+                try {
+                    arregloNumeros.add(Float.parseFloat(numerostext[i]));
+                }catch (Exception e){
+                    return false;
+                }
+            }
+            return true;
+        } else{
+            return false;
         }
     }
 
-    public String realizarGaussSeidel(ArrayList<Float> arregloM, ArrayList<Float> arregloL, float error, int tamano){
+    public void matrizALista(){
+        for(ArrayList<Float> linea: ecuaciones){
+            for(Float num: linea){
+                arregloMatriz.add(num);
+            }
+        }
+    }
 
+    public void realizarGaussSeidel(float error){
+        matrizALista();
+        ArrayList<Float> arregloM = arregloMatriz;
+            int tamano = numCoef-1;
+            ArrayList<Float> arregloL = arregloNumeros;
             Float[][] M = new Float[tamano][tamano+1];
             float[] X = new float[tamano];
             int y = 0;
@@ -173,12 +210,12 @@ public class GaussSeidel extends Fragment implements View.OnClickListener {
             if (!makeDominant(M)) {
                 toast = Toast.makeText(getActivity(), "Matriz sin diagonal dominante", Toast.LENGTH_LONG);
                 toast.show();
-                return "";
+                resultadosSeide = "Matriz sin diagonal dominante";
             }else {
                 float[] res = solve(M, error, X);
                 //Toast.makeText(getBaseContext(), "El resultado de la operacion es " + res, Toast.LENGTH_LONG).show();
 
-                return Arrays.toString(res);
+                resultadosSeide = Arrays.toString(res);
                 // Log.d("********************** ", "RESULTADO  " + res);
             }
         }
@@ -263,4 +300,15 @@ public class GaussSeidel extends Fragment implements View.OnClickListener {
             return actual;
         }
 
+
+    private String imprimirSeidel(String valores){
+        valores = valores.replace("[", "");
+        valores = valores.replace("]", "");
+        String[] vals = valores.split(",");
+        String res = "";
+        for(int i = 0; i < vals.length; i++){
+            res += "X"+i+"= "+vals[i] + "\n";
+        }
+        return res;
+    }
 }
