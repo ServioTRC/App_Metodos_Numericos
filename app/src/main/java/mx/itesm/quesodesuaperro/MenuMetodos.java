@@ -91,7 +91,7 @@ public class MenuMetodos extends AppCompatActivity
         } else if (id == R.id.gauss){
             fragment = new Gauss();
         } else if (id == R.id.lagrange){
-            fragment = new Lagrange();
+            fragment = new GaussSeidel();
         } else if (id == R.id.ayuda){
             fragment = new Ayuda();
         } else if (id == R.id.creditos){
