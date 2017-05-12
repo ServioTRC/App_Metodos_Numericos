@@ -21,8 +21,8 @@
             android:id="@+id/gauss"
             android:title="Método de Gauss" />
         <item
-            android:id="@+id/lagrange"
-            android:title="Método de Lagrange" />
+            android:id="@+id/GaussSeidel"
+            android:title="Método de Gauss-Seidel" />
         <item
             android:id="@+id/ayuda"
             android:title="Ayuda" />
