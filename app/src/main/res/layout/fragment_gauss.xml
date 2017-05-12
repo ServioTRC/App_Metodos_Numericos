@@ -1,54 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="Gauss"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/titulo"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-    <TextView
-        android:text="Introduce la matriz por línea"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/instrucciones" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Matríz por línea"
-        android:ems="10"
-        android:id="@+id/matriz" />
-
-    <Button
-        android:text="Calcular"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/calcular" />
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
 
-        <TextView
-            android:text="Resultados"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="14dp">
+
+            <TextView
+                android:id="@+id/LineaTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="Líneas agregadas"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.058"
+                app:layout_constraintVertical_bias="0.06" />
+
+            <TextView
+                android:id="@+id/resTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="Resultados"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintVertical_bias="0.501" />
+
+            <TextView
+                android:id="@+id/valores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/LineaTitle"
+                android:text=""
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.057"
+                app:layout_constraintVertical_bias="0.163" />
+
+            <TextView
+                android:id="@+id/Resultados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/resTitle"
+                android:text="fuck"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:layout_editor_absoluteY="170dp"
+                android:layout_marginLeft="22dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.063"
+                app:layout_constraintVertical_bias="0.767" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <Button
+            android:id="@+id/borrar"
+            android:layout_width="110dp"
+            android:layout_height="46dp"
+            android:text="Borrar"
+            tools:layout_editor_absoluteX="260dp"
+            tools:layout_editor_absoluteY="114dp"
+            android:layout_marginTop="160dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/resTitle" />
+            android:layout_alignParentStart="true" />
 
-        <TextView
-            android:text=""
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+        <Button
+            android:id="@+id/agregar"
+            android:layout_width="127dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/borrar"
+            android:text="Agregar fila"
+            tools:layout_editor_absoluteX="125dp"
+            tools:layout_editor_absoluteY="117dp" />
+
+        <Button
+            android:id="@+id/calcular"
+            android:layout_width="116dp"
+            android:layout_height="47dp"
+            android:layout_alignTop="@+id/agregar"
             android:layout_centerHorizontal="true"
-            android:id="@+id/resultados" />
+            android:text="Calcular"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="114dp" />
+
     </RelativeLayout>
-</LinearLayout>
+
+    <EditText
+        android:id="@+id/matriz"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Matríz por línea"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="63dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/instrucciones"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gauss"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/instrucciones"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:text="Introduce la matriz por línea"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="46dp"
+        android:layout_below="@+id/titulo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="19dp" />
+
+</RelativeLayout>
