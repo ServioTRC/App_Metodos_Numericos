@@ -48,37 +48,30 @@
         android:inputType="numberDecimal"
         android:layout_below="@+id/PuntoInicial"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/Aceptar"
+        android:layout_toStartOf="@+id/Aceptar" />
 
     <Button
         android:id="@+id/Aceptar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/PuntoFinal"
-        android:layout_marginEnd="38dp"
-        android:layout_marginRight="38dp"
-        android:text="Aceptar" />
+        android:text="Aceptar"
+        android:layout_below="@+id/PuntoInicial"
+        android:layout_alignRight="@+id/editText8"
+        android:layout_alignEnd="@+id/editText8"
+        android:layout_marginRight="82dp"
+        android:layout_marginEnd="82dp" />
 
-    <ScrollView
+    <TextView
+        android:id="@+id/Resultados"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_below="@+id/Aceptar"
-        android:fillViewport="true">
-
-        <TextView
-            android:id="@+id/Resultados"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:lines="20"
-            android:scrollHorizontally="false"
-            android:scrollbars="vertical"
-            android:textSize="20sp" />
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:lines="20"
+        android:scrollHorizontally="false"
+        android:scrollbars="vertical"
+        android:textSize="20sp"
+        android:layout_below="@+id/Aceptar" />
 
     <TextView
         android:id="@+id/editText8"
@@ -90,5 +83,16 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/Graficar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/PuntoFinal"
+        android:layout_marginLeft="90dp"
+        android:layout_marginStart="90dp"
+        android:layout_toEndOf="@+id/Error"
+        android:layout_toRightOf="@+id/Error"
+        android:text="Graficar" />
 
 </RelativeLayout>

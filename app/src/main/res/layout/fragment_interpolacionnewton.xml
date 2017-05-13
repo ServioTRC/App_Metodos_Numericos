@@ -55,18 +55,19 @@
         android:id="@+id/Eliminar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Eliminar\nanterior"
         android:layout_below="@+id/PuntoX"
-        android:layout_centerHorizontal="true"
-        android:text="Eliminar punto\nanterior" />
+        android:layout_toRightOf="@+id/Agregar" />
 
     <Button
         android:id="@+id/Calcular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/PuntoY"
-        android:text="Calcular\npolinomio" />
+        android:text="Calcular\npolinomio"
+        android:layout_alignBaseline="@+id/Eliminar"
+        android:layout_alignBottom="@+id/Eliminar"
+        android:layout_toRightOf="@+id/Eliminar"
+        android:layout_toEndOf="@+id/Eliminar" />
 
     <TextView
         android:id="@+id/textView7"
@@ -92,8 +93,8 @@
 
         <TextView
             android:id="@+id/Puntos"
-            android:layout_width="316dp"
-            android:layout_height="117dp"
+            android:layout_width="358dp"
+            android:layout_height="118dp"
             android:lines="20"
             android:scrollHorizontally="false"
             android:scrollbars="vertical"
@@ -102,8 +103,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.857"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintHorizontal_bias="0.866"
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginLeft="8dp"
+            tools:layout_editor_absoluteY="-1dp"
+            tools:layout_editor_absoluteX="-8dp" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -140,8 +144,19 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.083" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/Graficar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/Calcular"
+        android:layout_toEndOf="@+id/Calcular"
+        android:layout_toRightOf="@+id/Calcular"
+        android:text="Graficar" />
 
 </RelativeLayout>
