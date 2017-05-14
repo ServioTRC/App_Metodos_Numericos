@@ -30,6 +30,9 @@ public class Gauss extends Fragment implements View.OnClickListener {
     private ArrayList<ArrayList<Double>> matriz;
     private int longitud =0;
     private double[][] matrizFinal;
+    private boolean flagClear = false;
+    private int countFilas;
+    private double[][] matrizUltimate;
 
     public Gauss(){
 
@@ -55,9 +58,19 @@ public class Gauss extends Fragment implements View.OnClickListener {
                 } else if(lineasFaltantes== -1){
                     toast = Toast.makeText(getActivity(), "Agrega líneas", Toast.LENGTH_LONG);
                     toast.show();
-                 } else{
-                    double[][] matrizUltimate =traducir(matriz);
-                    System.out.println();
+                 } else if(!flagClear){
+                    matrizUltimate = traducir(matriz);
+                    matrizUltimate = gauss(matrizUltimate,countFilas);
+                    countFilas++;
+                    flagClear = true;
+                    imprimirResultados(matrizUltimate);
+
+                    //1,-3,4,21
+                    //3,1,-1,-18
+                    //2,-1,3,12
+                } else{
+                    matrizUltimate = gauss(matrizUltimate,countFilas);
+                    countFilas++;
                     imprimirResultados(matrizUltimate);
                 }
 
@@ -65,7 +78,10 @@ public class Gauss extends Fragment implements View.OnClickListener {
             case R.id.borrar:
                 eliminarValores();
                 imprimirValores();
+                flagClear = false;
+                countFilas = 0;
                 break;
+
         }
     }
 
@@ -85,17 +101,10 @@ public class Gauss extends Fragment implements View.OnClickListener {
         for(int i =0; i<matriz.size();i++){
             for(int j =0; j<matriz.get(0).size(); j++){
                 matrizFinal[i][j] = matriz.get(i).get(j);
-                System.out.println(matrizFinal[i][j]);
             }
         }
 
-        matrizFinal = gauss(matrizFinal);
-        System.out.println("El resultado final es");
-        for(int i =0; i<matriz.size();i++){
-            for(int j =0; j<matriz.get(0).size(); j++){
-                System.out.println(matrizFinal[i][j]);
-            }
-        }
+
         return matrizFinal;
     }
 
@@ -168,34 +177,46 @@ public class Gauss extends Fragment implements View.OnClickListener {
     }
 
 
-    public double[][] gauss(double[][] matrix){
+    public double[][] gauss(double[][] matrix, int numFila){
         double pivote=1;
         double numBajoPivote;
-        for(int fila=0;fila<matrix.length-1;fila++){
-            System.out.println("Me meti a gauss");
-            for(int filaSig=fila+1;filaSig<matrix.length;filaSig++){
-                if(matrix[fila][fila]==0){
-                    matrix=cambioDe0(matrix,fila);
-                }
-
-                for(int num=0;num<matrix[fila].length;num++){
-                    if(num==fila){
-                        pivote=matrix[fila][fila];
+        if(numFila < matrix.length-1) {
+            for (int fila = numFila; fila < numFila+1; fila++) {
+                for (int filaSig = fila + 1; filaSig < matrix.length; filaSig++) {
+                    if (matrix[fila][fila] == 0) {
+                        matrix = cambioDe0(matrix, fila);
                     }
 
-                    matrix[fila][num]=matrix[fila][num]/pivote;
-                }
-                numBajoPivote= matrix[filaSig][fila];
-                for(int num=0;num<matrix[filaSig].length;num++){
-                    matrix[filaSig][num]=(matrix[fila][num]*(-numBajoPivote))+matrix[filaSig][num];
-                }
-                pivote= matrix[filaSig][filaSig];
-                for(int k=0;k<matrix[filaSig].length;k++){
-                    matrix[filaSig][k]=(matrix[filaSig][k])/pivote;
+                    for (int num = 0; num < matrix[fila].length; num++) {
+                        if (num == fila) {
+                            pivote = matrix[fila][fila];
+                        }
+
+                        matrix[fila][num] = matrix[fila][num] / pivote;
+                    }
+                    numBajoPivote = matrix[filaSig][fila];
+                    for (int num = 0; num < matrix[filaSig].length; num++) {
+                        matrix[filaSig][num] = (matrix[fila][num] * (-numBajoPivote)) + matrix[filaSig][num];
+                    }
+                    pivote = matrix[filaSig][filaSig];
+                    for (int k = 0; k < matrix[filaSig].length; k++) {
+                        matrix[filaSig][k] = (matrix[filaSig][k]) / pivote;
+                    }
                 }
             }
         }
         return matrix;
+    }
+
+    private void imprimirpaso(double[][] matrix) {
+        String res = "";
+        for(int i = 0; i<matrix.length; i++){
+            for(int j =0; j<matrix[0].length; j++){
+                res+=matrix[i][j] + ",";
+            }
+            res+="\n";
+        }
+        resultados.setText(res);
     }
 
     private double[][] cambioDe0(double[][]matrix, int fila){
