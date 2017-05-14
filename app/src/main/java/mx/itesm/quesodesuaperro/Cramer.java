@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.method.ScrollingMovementMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,7 @@ public class Cramer extends Fragment implements View.OnClickListener{
                     toast.show();
                 }
                 imprimirValores();
+
                 break;
             case R.id.Borrar:
                 eliminarValores();
@@ -78,6 +80,7 @@ public class Cramer extends Fragment implements View.OnClickListener{
                     toast = Toast.makeText(getActivity(), "Resultados calculados", Toast.LENGTH_LONG);
                     toast.show();
                     resultados.setText(metodoDeCrammer(ecuaciones));
+                    resultados.setMovementMethod(new ScrollingMovementMethod());
                 }else if(numIncog < 0){
                     toast = Toast.makeText(getActivity(), "Sobran líneas de coeficientes" , Toast.LENGTH_LONG);
                     toast.show();
@@ -121,6 +124,7 @@ public class Cramer extends Fragment implements View.OnClickListener{
             res += "\n";
         }
         coeficientes.setText(res);
+        coeficientes.setMovementMethod(new ScrollingMovementMethod());
     }
 
     private void eliminarValores(){

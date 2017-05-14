@@ -12,10 +12,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class MenuMetodos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
 
+    public static ArrayList<Number> valoresX = new ArrayList<Number>();
+    public static ArrayList<Number> valoresY = new ArrayList<Number>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

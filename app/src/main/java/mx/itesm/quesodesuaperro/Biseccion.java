@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class Biseccion extends Fragment implements View.OnClickListener{
@@ -28,6 +32,8 @@ public class Biseccion extends Fragment implements View.OnClickListener{
     private EditText error;
     private TextView resultados;
     private Toast toast;
+    private Button graficar;
+    private String res;
 
     public Biseccion() {
         // Required empty public constructor
@@ -43,7 +49,9 @@ public class Biseccion extends Fragment implements View.OnClickListener{
         puntoFinal = (EditText) view.findViewById(R.id.PuntoFinal);
         error = (EditText) view.findViewById(R.id.Error);
         resultados = (TextView) view.findViewById(R.id.Resultados);
+        graficar = (Button) view.findViewById(R.id.Graficar);
         upButton.setOnClickListener(this);
+        graficar.setOnClickListener(this);
         return view;
     }
 
@@ -183,11 +191,20 @@ public class Biseccion extends Fragment implements View.OnClickListener{
         switch (view.getId()) {
             case R.id.Aceptar:
                 if(validar(funcion.getText().toString())) {
-                    String res = biseccionCompleta(funcion.getText().toString(), Double.parseDouble(puntoInicial.getText().toString()),
+                    res = biseccionCompleta(funcion.getText().toString(), Double.parseDouble(puntoInicial.getText().toString()),
                             Double.parseDouble(puntoFinal.getText().toString()), Double.parseDouble(error.getText().toString()));
                     toast = Toast.makeText(getActivity(), "Raíces obtenidas", Toast.LENGTH_LONG);
                     toast.show();
                     resultados.setText(res);
+                    resultados.setMovementMethod(new ScrollingMovementMethod());
+                }
+                break;
+            case R.id.Graficar:
+                if(res != null)
+                    cambiarPantalla();
+                else{
+                    toast = Toast.makeText(getActivity(), "No hay función a graficar" , Toast.LENGTH_LONG);
+                    toast.show();
                 }
                 break;
         }
@@ -206,5 +223,36 @@ public class Biseccion extends Fragment implements View.OnClickListener{
             return false;
         }
     }
+
+    private void cambiarPantalla(){
+        generarPuntos();
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.Contenedor, new Graficas(), "Grafica");
+        ft.commit();
+    }
+
+    private void generarPuntos() {
+        String extra = funcion.getText().toString();
+        extra = extra.replace("pi", "(3.1416)");
+        extra = extra.replace("e", "(2.71828)");
+        Double inferior = Double.parseDouble(puntoInicial.getText().toString());
+        Double superior = Double.parseDouble(puntoFinal.getText().toString());
+        MenuMetodos.valoresX.clear();
+        MenuMetodos.valoresY.clear();
+        String operaciones;
+        Double resultado;
+        for(Double i = inferior; i <= superior; i+=0.1){
+            operaciones = extra.replaceAll("x", "(" + Double.toString(i) + ")");
+            try{
+                resultado = eval(operaciones);
+                MenuMetodos.valoresX.add(i);
+                MenuMetodos.valoresY.add(resultado);
+                Log.v(Double.toString(i), Double.toString(resultado));
+            } catch (Exception e){
+                Log.v("Error","Error");
+            }
+        }
+    }
+
 
 }

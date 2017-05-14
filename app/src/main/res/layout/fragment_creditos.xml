@@ -22,7 +22,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView"
-        android:text="Creadores:\nJulio 'El nenas locas' Menéndez\nServio Reyes"
-        android:textSize="20sp" />
+        android:text="-->Creadores:
+Julio César Gonzáles Menéndez A01376667
+Servio Tulio Reyes Castillo A01371719\n
+-->Materia:
+Métodos Numérios y Algebra Lineal\n
+-->Profesor:
+Marco Antonio Reyes Guzmán
+"
+        android:textSize="22sp" />
 
 </RelativeLayout>

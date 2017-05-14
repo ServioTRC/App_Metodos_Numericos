@@ -2,6 +2,7 @@ package mx.itesm.quesodesuaperro;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -90,6 +91,7 @@ public class GaussSeidel extends Fragment implements View.OnClickListener {
                             if(arregloNumeros.size() == (ecuaciones.get(0).size()-1)){
                                 realizarGaussSeidel(errorValor);
                                 resultados.setText(imprimirSeidel(resultadosSeide));
+                                resultados.setMovementMethod(new ScrollingMovementMethod());
                             }
                             else
                                 toast = Toast.makeText(getActivity(), "Número de puntos erróneos", Toast.LENGTH_LONG);
@@ -121,6 +123,7 @@ public class GaussSeidel extends Fragment implements View.OnClickListener {
             res += "\n";
         }
         coeficientes.setText(res);
+        coeficientes.setMovementMethod(new ScrollingMovementMethod());
     }
 
     private void eliminarValores(){

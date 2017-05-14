@@ -16,13 +16,27 @@
         android:layout_alignParentStart="true"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/Ayudatext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView"
-        android:text="Mencionar toda la ayuda\nComo el tipo de datos en bisección"
+        android:text="-->Método de bisección
+La función en X a ingresar debe ser de la forma:
+x^3+24x^2-sin(e)*pi\n
+-->Método de Crammer
+Los coeficientes a ingresar deberán estar separados por comas e ingresa línea por línea.\n
+-->Método de interpolación de Newton
+Ingrese los puntos a interpolar, al finalizar presione calcular polinomio.\n
+-->Método de Bairstow
+Ingrese los coeficientes de la función, separados por una coma. Considerar los coeficientes con 0.\n
+-->Método de Gauss
+Ingrese los coeficientes de la matriz separados por comas, línea por línea.\n
+-->Método de GaussSeidel
+Ingrese los coeficientes de la matriz separados por comas, línea por línea. Al finalizar ponga calcular.
+En dado caso que la diagonal principal no es dominante, el método le mencionará esa situación.
+"
         android:textSize="20sp" />
 
 
