@@ -41,136 +41,6 @@ public class Bairstow extends android.support.v4.app.Fragment implements View.On
         //Constructor vacio requerido
     }
 
-    public void fuckYou(){
-        int i;
-        double r1, r2, du, dv, u, v, r, dr;
-        double sq, det, nu, nv, error;
-        double epsilon = 1e-6;
-
-        System.out.println("The polynomial is:");
-        for (i = n; i >= 0; i--) {
-            if (i == 0)
-                System.out.print(a[i]);
-            else
-                System.out.print(a[i] + "*x^" + i + "  ");
-        }
-
-        System.out.print("\n\n");
-        while (n > 3) {
-            u = 0;
-            v = 0;
-            error = 1;
-            c[n] = b[n] = a[n];
-
-            while (error > epsilon) {
-                b[n-1] = a[n-1] + u * b[n];
-                c[n-1] = b[n-1] + u * c[n];
-
-                for (i = n - 2; i > 0; i--) {
-                    b[i] = a[i] + u * b[i+1] + v * b[i+2];
-                    c[i] = b[i] + u * c[i+1] + v * c[i+2];
-                }
-
-                b[0] = a[0] + u * b[1] + v * b[2];
-
-                det = (c[2] * c[2]) - c[1] * c[3];
-
-                nu = b[0] * c[3] - b[1] * c[2];
-                nv = b[1] * c[1] - b[0] * c[2];
-
-                if (det == 0) {
-                    du = dv = 1;
-                } else {
-                    du = nu / det;
-                    dv = nv / det;
-                }
-
-                u += du;
-                v += dv;
-
-                error = Math.sqrt(du * du + dv * dv);
-            }
-
-
-            sq = u * u + 4 * v;
-
-            if (sq < 0) {
-                r1 = u/2;
-                r2 = Math.sqrt(-sq)/2;
-
-                System.out.println(r1 + " + " + r2 + "i");
-                System.out.println(r1 + " - " + r2 + "i");
-            } else {
-                r1 = u/2 + Math.sqrt(sq)/2;
-                r2 = u/2 - Math.sqrt(sq)/2;
-
-                System.out.println(r1);
-                System.out.println(r2);
-            }
-
-            n -= 2;
-
-            for (i = 0; i < n + 1; i++)
-                a[i] = b[i+2];
-        }
-
-
-
-
-        if (n == 3) {
-            r = 0;
-            error = 1;
-            b[n] = a[n];
-
-            while (error > epsilon) {
-                b[2] = a[2] + r * b[3];
-                b[1] = a[1] + r * b[2];
-                b[0] = a[0] + r * b[1];
-
-                double d = a[1] + (2 * a[2] * r) + (3 * a[3] * r * r);
-
-                if (d == 0)
-                    dr = 1;
-                else
-                    dr = -b[0] / d; // b[0] = f(x)
-
-                r -= dr;
-                error = Math.abs(dr);
-            }
-
-            System.out.println(r);
-            n--;
-
-            for (i = 0; i < n + 1; i++)
-                a[i] = b[i + 1];
-        }
-
-
-        if (n == 2) {
-            u = -a[1] / a[2];
-            v = -a[0] / a[2];
-            sq = u * u + 4 * v;
-
-            if (sq < 0) {
-                r1 = u/2;
-                r2 = Math.sqrt(-sq)/2;
-
-                System.out.println(r1 + " + " + r2 + "i");
-                System.out.println(r1 + " - " + r2 + "i");
-            } else {
-                r1 = u/2 + Math.sqrt(sq)/2;
-                r2 = u/2 - Math.sqrt(sq)/2;
-
-                System.out.println(r1);
-                System.out.println(r2);
-            }
-        } else if (n == 1) {
-            System.out.println(-a[0] / a[1]);
-        }
-
-        System.out.println("\nRoot finding process has finished.");
-    }
-
     public ArrayList<Double> divSinDoble(ArrayList<Double> coef, double r, double s){
         ArrayList<Double> copia = new ArrayList<Double>(coef.size());
         for(Double dab : coef){
@@ -229,6 +99,7 @@ public class Bairstow extends android.support.v4.app.Fragment implements View.On
     public ArrayList<Double> evaluarFuncion(ArrayList<Double> arreglo){
         ArrayList<Double> raices = new ArrayList<Double>();
         double a,b,c,d;
+        System.out.println("entre a encontrar raices, arreglo tiene tamano de " + arreglo.size());
         if(arreglo.size()==3){
             a= arreglo.get(0);
             b = arreglo.get(1);
@@ -301,11 +172,27 @@ public class Bairstow extends android.support.v4.app.Fragment implements View.On
                         prueba.add(a[i]);
                     }
                     System.out.println("");
-                    prueba = bairSimple(prueba, 0.00001);
+                    while(prueba.size()>3) {
+                        prueba = bairSimple(prueba, 0.00001);
+                    }
+
                     raices = evaluarFuncion(prueba);
                     System.out.println("Las raices son: " + raices.toString());
-
-                    //fuckYou();
+                    String res = "";
+                    if(raices.size()>0) {
+                        for(int i = 0; i < raices.size(); i++){
+                            raices.set(i, Math.floor(raices.get(i) * 1e5) / 1e5);
+                        }
+                        res = raices.get(0).toString();
+                        if(raices.size()>1){
+                            for (int i = 1; i < raices.size(); i++) {
+                                res += ", " + raices.get(i).toString();
+                            }
+                        }
+                    }else{
+                        res += "Las raíces son imaginarias :(";
+                    }
+                    resultados.setText(res);
 
                 } catch(Exception e){
                     toast = Toast.makeText(getActivity(), "Error en los valores ingresados" , Toast.LENGTH_LONG);
@@ -322,23 +209,6 @@ public class Bairstow extends android.support.v4.app.Fragment implements View.On
         }
     }
 
-    private void imprimirValor() {
-        String res = "";
-        ArrayList<Double> prueba = new ArrayList<Double>();
-        prueba.add(1.25);
-        prueba.add(-3.875);
-        prueba.add(2.125);
-        prueba.add(2.75);
-        prueba.add(-3.5);
-        prueba.add(1.0);
-        //prueba.add(-13.0);
-        //prueba.add(-1.0);
-        prueba = bairSimple(prueba, 0.00000001);
-        System.out.println("Lo logré con " + prueba.size());
-        for(int i =0; i<prueba.size(); i++){
-            res+=prueba.get(i) + ", ";
-        }
-        resultados.setText(res);
-    }
+
 
 }
